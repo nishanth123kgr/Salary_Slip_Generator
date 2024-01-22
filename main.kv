@@ -1,0 +1,60 @@
+MDBoxLayout:
+    orientation: "vertical"
+    MDTopAppBar:
+        title: "Salary Slip Generator"
+        elevation: 2
+        type: "top"
+    MDFloatLayout:
+        height: app.calc_height()
+        MDLabel:
+            id: upload_label
+            text: "Upload Data Here"
+            pos_hint: {"center_x": .5, "center_y": .9}
+            valign: "center"
+            halign: "center"
+        MDRaisedButton:
+            text: "Salary Data"
+            pos_hint: {"center_x": .4, "center_y": .8}
+            valign: "center"
+            on_release: app.file_mgr_open("salary")
+        MDRaisedButton:
+            text: "Staff Data"
+            pos_hint: {"center_x": .6, "center_y": .8}
+            valign: "center"
+            on_release: app.file_mgr_open("staff")
+        MDLabel:
+            id: salary_file
+            text: "Salary Data: No file selected"
+            pos_hint: {"center_x": .5, "center_y": .7}
+            valign: "center"
+            halign: "center"
+            multiline: True
+            size_hint_y: None
+            height: self.texture_size[1]
+        MDLabel:
+            id: staff_file
+            text: "Staff Data : No file selected"
+            pos_hint: {"center_x": .5, "center_y": .6}
+            valign: "center"
+            halign: "center"
+        MDRaisedButton:
+            text: "Upload"
+            pos_hint: {"center_x": .45, "center_y": .5}
+            valign: "center"
+            on_release: app.upload_thread()
+        MDRaisedButton:
+            text: "Stop"
+            pos_hint: {"center_x": .55, "center_y": .5}
+            valign: "center"
+            on_release: app.stop_thread()
+        MDLabel:
+            id: runner
+            text: "Status : Not Started"
+            pos_hint: {"center_x": .7, "center_y": .5}
+            valign: "center"
+            halign: "center"
+    MDScrollView:
+        MDList:
+            id: scroll
+
+
