@@ -1,2 +1,4 @@
 build
 *.docx
+__pycache__
+.idea
