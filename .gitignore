@@ -2,3 +2,5 @@ build
 *.docx
 __pycache__
 .idea
+*.xlsx
+*.xls
