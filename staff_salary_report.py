@@ -90,7 +90,7 @@ class SalaryReport:
             exit(1)
 
     def generate_password(self, name, doj):
-        password = f"{self.convert_name(name)[:2]}{doj.replace('.', '')[:4]}"
+        password = f"{self.convert_name(name)[:2]}{doj.strip().replace('.', '')[:4]}"
         print(password, name)
         return password
 
@@ -115,7 +115,7 @@ class SalaryReport:
             'nhis': row[11],
             'fsf': row[12],
             'fa': row[13],
-            'pt': row[14],
+            'pt': row[-1],
             'mcp': row[15],
             'td': row[16],
             'np': f"Rs.{row[17]}/- (Rupees {num2words(row[17]).replace(',', '').replace(' and', '').replace('-', ' ').title()} only)",
@@ -145,7 +145,7 @@ class SalaryReport:
         pdf_loc = f"{self.base}pdf/{row[0].replace(' ', '')}{self.period}.pdf"
         convert(f"{self.base}{row[0].replace(' ', '')}{self.period}.docx", pdf_loc)
         output = self.encrypt_pdf(pdf_loc, self.generate_password(row[0], row[21]))
-        self.send_mail(row[-1], '', row[0], output)
+        # self.send_mail(row[-2], '', row[0], output)
 
 
 
@@ -175,8 +175,27 @@ def read_data(salary, staff):
 
     merged['E-mail'] = merged['E-mail'].apply(lambda x: x.replace(' ', ''))
 
+    # merged = merged.iloc[11:13, :]
+
+    print(merged)
+
     return merged, report
 
 
-
+if __name__ == '__main__':
+    salary = 'Salary for the month March 2024 (Scale) - General Fund (Scale).xls'
+    staff = 'Teaching Staff Salary -20231.xlsx'
+    data, report = read_data(salary, staff)
+    for index, row in data.iterrows():
+        row = row.astype(str)
+        row = row.to_list()
+        row.append(row.pop(16))
+        print(row)
+        exit()
+        try:
+            report.gen_sal_report(row)
+        except Exception as e:
+            print(e)
+            print("Error at index", index)
+            exit(1)
 
